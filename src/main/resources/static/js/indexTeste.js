@@ -76,7 +76,7 @@ $(document).ready(function(){
 		}
 		
 		$.ajax({
-            url: 'http://localhost:8080/hotels/prices/',
+            url: '/hotels/prices/',
             data: $('#form').serializeArray(),
             method: 'GET'
         }).done(function( data ) {

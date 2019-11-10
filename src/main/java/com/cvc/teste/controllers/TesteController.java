@@ -5,13 +5,17 @@ import java.text.NumberFormat;
 import java.util.List;
 import java.util.Locale;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
+import org.thymeleaf.util.StringUtils;
 
 import com.cvc.teste.business.HotelBusiness;
 import com.cvc.teste.clients.HotelClient;
@@ -37,17 +41,38 @@ public class TesteController {
 	}
 	
 	@RequestMapping(value = "/hotels/prices/")
-	public ModelAndView getTotalPrice(@Valid SearchHotelForm searchHotelForm ) {
+	public ModelAndView getTotalPrice(@Valid SearchHotelForm searchHotelForm, HttpServletResponse response ) {
 		
-		Type 				listHotels 		= new TypeToken<List<HotelsJson>>(){}.getType();
+		boolean errorInProcess = false;
 		
-		//Busca os hoteis na API
-		List<HotelsJson> 	hotelsFromApi 	= new Gson().fromJson( hotelClient.getHotelsByCity( searchHotelForm.getCityCode() ), listHotels );
+		try {
+			
+			Type listHotels = new TypeToken<List<HotelsJson>>(){}.getType();
+			
+			String requisitionBody = hotelClient.getHotelsByCity( searchHotelForm.getCityCode() );
+			
+			if( StringUtils.isEmpty( requisitionBody ) ) {
+				errorInProcess = true;
+			}
+			
+			List<HotelsJson> hotelsFromApi = new Gson().fromJson( requisitionBody , listHotels );
+			
+			if( CollectionUtils.isEmpty( hotelsFromApi ) ) {
+				errorInProcess = true;
+			}
+			
+			if( errorInProcess ) {
+				response.setStatus( HttpStatus.BAD_GATEWAY.value() );
+				return null;
+			}
+			
+			return mountModelAndView(searchHotelForm, hotelBusiness.mountHotels( hotelsFromApi, searchHotelForm ) );
+			
+		} catch (Throwable t) {
+			response.setStatus( HttpStatus.BAD_GATEWAY.value() );
+			return null;
+		}
 		
-		//Monta o json de resposta conforme o requisito
-		List<HotelsJson> 	results 		= hotelBusiness.mountHotels( hotelsFromApi, searchHotelForm );
-		
-		return mountModelAndView(searchHotelForm, results);
 	}
 	
 	private ModelAndView mountModelAndView(SearchHotelForm searchHotelForm, List<HotelsJson> results ) {

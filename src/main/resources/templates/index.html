@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>API-Teste</title>
+	
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script th:src="@${/js/indexTeste.js}"></script>
+	
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+	
+</head>
+<body>
+
+        <form role="form" id="form" class="border border-light p-5 col-md-12">
+
+            <div class="form-group">
+                <label for="cityCode">Cidade:</label>
+                <select class="form-control mb-2 col-md-2" name="cityCode">
+                    <option value="1032">Porto Seguro</option>
+                    <option value="7110">Rio de Janeiro</option>
+                    <option value="9626">São Paulo</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="checkin">Checkin:</label>
+                <input type="date" class="form-control mb-2 col-md-2" name="checkin" placeholder="Checkin" id="checkin" />
+            </div>
+
+            <div class="form-group">
+                <label for="checkout">Checkout:</label>
+                <input type="date" class="form-control mb-2 col-md-2" name="checkout" placeholder="Checkout" id="checkout" />
+            </div>
+
+            <div class="form-group">
+                <label for="adultAmount">Adultos:</label>
+                <input type="number" class="form-control mb-2 col-md-2" name="adultAmount" placeholder="Quantidade de adultos" id="adultAmount" />
+            </div>
+
+            <div class="form-group">
+                <label for="childAmount">Crianças:</label>
+                <input type="number" class="form-control mb-2 col-md-2" name="childAmount" placeholder="Quantidade de crianças" id="childAmount" />
+            </div>
+
+            <button class="btn btn-info btn-block col-md-2" type="submit" id="sendSearch">Buscar</button>
+
+            <input type="hidden" name="currentPaginate" id="paginateNum" value="0">
+			
+			<input type="hidden" name="firstRequest" id="first" value="1">
+			
+        </form>
+		
+		<span style="color: #dc3545;" id="error" ></span>
+    
+    <strong><p class="text-center border border-light p-10">Os resultados serão exibidos abaixo:</p></strong>
+
+	<div class="text-center border border-light p-5" id="list-result">
+		
+		
+		
+	</div>
+		
+</body>
+</html>

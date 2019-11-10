@@ -1,0 +1,19 @@
+<button style="float: left;" th:disabled="${first == 1}" class="paginate back">Pagina anterior</button> <button style="float: right" class="paginate next">Proxima Pagina</button>
+
+<div class="list-group" th:each="hotel : ${hotels}">
+
+  <h5 th:text="${'Hotel: ' + hotel.id}"></h5>
+
+  <a href="#" th:each="room : ${hotel.rooms}" class="list-group-item list-group-item-action flex-column align-items-start">
+    <div class="d-flex w-100 justify-content-between">
+      <h5 class="mb-1" th:text="${'Categoria: ' + room.categoryName}"></h5>
+      <small th:text="${'Cidade: ' + hotel.cityName}"></small>
+    </div>
+    <p class="mb-1" th:text="${'Preco por adulto: R$ ' + formatter.format(room.priceDetail.pricePerDayAdult)}"></p>
+    <p class="mb-1" th:text="${'Preco por crianca: R$ ' + formatter.format(room.priceDetail.pricePerDayChild)}"></p>
+    <small th:text="${'Valor total: R$ ' + formatter.format(room.totalPrice)}" ></small>
+  </a>
+  
+</div>
+
+<button style="float: left" th:disabled="${first == 1}" class="paginate back">Pagina anterior</button> <button style="float: right" class="paginate next">Proxima Pagina</button>
